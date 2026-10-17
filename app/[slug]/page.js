@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import ScrollTopButton from '../../components/ScrollTopButton';
 import { getAllPosts, getPost, renderMarkdown } from '../../lib/posts';
 import { tagColor } from '../../lib/tags';
 
@@ -61,6 +62,8 @@ export default async function PostPage({ params }) {
         </header>
         <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />
       </article>
+
+      <ScrollTopButton />
     </div>
   );
 }
