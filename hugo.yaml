@@ -1,5 +1,5 @@
 # Hugo configuration file
-title: ijhyn
+title: ijhyn-log
 
 # import hextra as module
 module:
@@ -18,21 +18,24 @@ markup:
 
 menu:
   main:
+    - name: Blog
+      pageRef: /blog
+      weight: 1
     - name: Docs
       pageRef: /docs
-      weight: 1
+      weight: 2
     - name: About
       pageRef: /about
-      weight: 2
+      weight: 3
     - name: Contact ↗
       url: "https://github.com/ijhyn"
-      weight: 3
-    - name: Search
       weight: 4
+    - name: Search
+      weight: 5
       params:
         type: search
     - name: GitHub
-      weight: 5
+      weight: 6
       url: "https://github.com/ijhyn/ijhyn.github.io"
       params:
         icon: github

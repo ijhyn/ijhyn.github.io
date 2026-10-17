@@ -1,5 +1,5 @@
 ---
-title: My Site
+title: ijhyn-log
 toc: false
 ---
 
@@ -8,6 +8,7 @@ This is the landing page.
 ## Explore
 
 {{< cards >}}
+  {{< card link="blog" title="Blog" icon="pencil" >}}
   {{< card link="docs" title="Docs" icon="book-open" >}}
   {{< card link="about" title="About" icon="user" >}}
 {{< /cards >}}
