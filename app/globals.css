@@ -170,6 +170,7 @@ a {
   border: 0;
   background: var(--surface);
   cursor: pointer;
+  view-transition-name: theme-switch;
 }
 
 /* Both icons sit faintly in the track; the knob covers the active one. */
@@ -211,8 +212,7 @@ a {
   background: var(--line);
   clip-path: polygon(2px 0, 22px 0, 100% 2px, 100% 22px, 22px 100%, 2px 100%, 0 22px, 0 2px);
   transform: translateX(var(--switch-x));
-  /* jump-start: the first step lands on the click itself, so the knob keeps up with the instant color change. */
-  transition: transform 0.08s steps(2, jump-start);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .theme-switch__knob::after {
@@ -227,6 +227,22 @@ a {
 .theme-switch:focus-visible {
   outline: 4px dashed var(--accent);
   outline-offset: 6px;
+}
+
+/* Theme change crossfade (View Transitions, started by ThemeToggle). The switch is left out of
+   the snapshot fade and shown live, so its knob slides instead of ghosting between two positions. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+}
+
+::view-transition-old(theme-switch) {
+  display: none;
+}
+
+::view-transition-new(theme-switch) {
+  animation: none;
 }
 
 .site-footer {

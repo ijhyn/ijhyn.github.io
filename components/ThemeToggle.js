@@ -23,7 +23,13 @@ export default function ThemeToggle() {
 
   const toggle = () => {
     const next = isDarkNow() ? 'light' : 'dark';
-    document.documentElement.dataset.theme = next;
+    const apply = () => {
+      document.documentElement.dataset.theme = next;
+    };
+    // Crossfade the page colors where the View Transitions API exists; otherwise switch at once.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (document.startViewTransition && !reduceMotion) document.startViewTransition(apply);
+    else apply();
     try {
       localStorage.setItem(THEME_STORAGE_KEY, next);
     } catch {
