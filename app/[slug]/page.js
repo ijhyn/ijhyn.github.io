@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllPosts, getPost, renderMarkdown } from '../../lib/posts';
-import { tagHue } from '../../lib/tags';
+import { tagColor } from '../../lib/tags';
 
 export const dynamicParams = false;
 
@@ -44,13 +44,13 @@ export default async function PostPage({ params }) {
 
       <article className="post">
         <Link href="/" className="post__back">
-          ← 전체 글
+          ◀ 전체 글
         </Link>
         <header className="post__header">
           <div className="post__tags">
             {post.tags.map((tag) => (
-              <span key={tag} className="tag" style={{ '--hue': tagHue(tag) }}>
-                #{tag}
+              <span key={tag} className="tag" style={{ '--tag-color': tagColor(tag) }}>
+                {tag}
               </span>
             ))}
           </div>

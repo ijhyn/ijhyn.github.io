@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { tagHue } from '../lib/tags';
+import { tagColor } from '../lib/tags';
 
 export default function PostGrid({ posts }) {
   const tags = [...new Set(posts.flatMap((post) => post.tags))];
@@ -19,12 +19,12 @@ export default function PostGrid({ posts }) {
           <button
             key={tag}
             type="button"
-            className="chip"
+            className="chip chip--tag"
             aria-pressed={selected === tag}
-            style={{ '--hue': tagHue(tag) }}
+            style={{ '--tag-color': tagColor(tag) }}
             onClick={() => setSelected(tag)}
           >
-            #{tag}
+            {tag}
           </button>
         ))}
       </div>
@@ -32,11 +32,15 @@ export default function PostGrid({ posts }) {
       <ul className="post-grid">
         {visible.map((post) => (
           <li key={post.slug}>
-            <Link href={`/${post.slug}/`} className="post-card" style={{ '--hue': tagHue(post.tags[0] ?? '') }}>
+            <Link
+              href={`/${post.slug}/`}
+              className="post-card"
+              style={post.tags[0] ? { '--tag-color': tagColor(post.tags[0]) } : undefined}
+            >
               <span className="post-card__tags">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="tag">
-                    #{tag}
+                  <span key={tag} className="tag" style={{ '--tag-color': tagColor(tag) }}>
+                    {tag}
                   </span>
                 ))}
               </span>

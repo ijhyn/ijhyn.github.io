@@ -8,7 +8,7 @@ export default function HomePage() {
     <div className="container">
       <section className="hero">
         <h1 className="hero__title">ijhyn-log</h1>
-        <p className="hero__meta">글 {posts.length}개</p>
+        <p className="hero__meta">기록 {posts.length}개</p>
       </section>
       <PostGrid posts={posts} />
     </div>
