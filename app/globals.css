@@ -5,9 +5,12 @@
   font-display: swap;
 }
 
-/* Neutral cool white / cool black base; accent and tag colors come from the PICO-8 palette. */
+/* Neutral cool white / cool black base; accent and tag colors come from the PICO-8 palette.
+   The theme follows the system until the reader picks one with the header toggle, which sets
+   data-theme="light" | "dark" on <html> (see ThemeToggle and the script in app/layout.js). */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
+  --toggle-label: '★ 다크';
   --bg: #f5f6f8;
   --dot: rgb(28 31 38 / 0.1);
   --surface: #ffffff;
@@ -24,8 +27,11 @@
   --page-w: 1120px;
 }
 
+/* Dark tokens: from the system setting unless light was picked, or from a dark pick. Keep both blocks in sync. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --toggle-label: '☀ 라이트';
     --bg: #121418;
     --dot: rgb(255 255 255 / 0.06);
     --surface: #0a0b0e;
@@ -38,6 +44,22 @@
     --inline-code-bg: #2a2d35;
     --code-bg: #000000;
   }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --toggle-label: '☀ 라이트';
+  --bg: #121418;
+  --dot: rgb(255 255 255 / 0.06);
+  --surface: #0a0b0e;
+  --text: #eef0f4;
+  --muted: #9ea3ad;
+  --line: #eef0f4;
+  --shadow: #ffffff;
+  --link: #4ea8ff;
+  --strong: #ffec27;
+  --inline-code-bg: #2a2d35;
+  --code-bg: #000000;
 }
 
 * {
@@ -80,6 +102,7 @@ a {
 .chip,
 .post-sidebar,
 .scroll-top,
+.theme-toggle,
 .prose pre {
   --b: 4px;
   box-shadow:
@@ -118,6 +141,41 @@ a {
 .site-link:hover,
 .site-title:hover {
   color: var(--accent);
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.theme-toggle {
+  --b: 3px;
+  padding: 0 10px;
+  border: 0;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* The label lives in the theme tokens, so it is right before any script runs. */
+.theme-toggle::after {
+  content: var(--toggle-label);
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+}
+
+.theme-toggle:active {
+  --shadow: transparent;
+  transform: translate(6px, 6px);
+}
+
+.theme-toggle:focus-visible {
+  outline: 4px dashed var(--accent);
+  outline-offset: 6px;
 }
 
 .site-footer {
