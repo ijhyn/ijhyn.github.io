@@ -445,6 +445,8 @@ a {
   color: var(--muted);
 }
 
+/* Browsers give pre/code their own monospace font; use the pixel font in code too. */
+.prose pre,
 .prose code {
   font-family: inherit;
 }
@@ -463,6 +465,7 @@ a {
   background: var(--code-bg);
   color: #eef0f4;
   line-height: 24px;
+  tab-size: 4;
   overflow-wrap: normal;
   word-break: normal;
 }
