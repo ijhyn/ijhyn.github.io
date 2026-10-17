@@ -211,7 +211,8 @@ a {
   background: var(--line);
   clip-path: polygon(2px 0, 22px 0, 100% 2px, 100% 22px, 22px 100%, 2px 100%, 0 22px, 0 2px);
   transform: translateX(var(--switch-x));
-  transition: transform 0.15s steps(3);
+  /* jump-start: the first step lands on the click itself, so the knob keeps up with the instant color change. */
+  transition: transform 0.08s steps(2, jump-start);
 }
 
 .theme-switch__knob::after {
