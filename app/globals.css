@@ -10,13 +10,19 @@
    data-theme="light" | "dark" on <html> (see ThemeToggle and the script in app/layout.js). */
 :root {
   color-scheme: light;
-  --toggle-label: '★ 다크';
+  /* 16x16 pixel icons for the theme switch, used as masks so CSS sets their color. */
+  --icon-sun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath d='M7 0h2v1H7zM7 1h2v1H7zM2 2h2v1H2zM7 2h2v1H7zM12 2h2v1H12zM2 3h2v1H2zM12 3h2v1H12zM6 5h4v1H6zM5 6h6v1H5zM0 7h3v1H0zM5 7h6v1H5zM13 7h3v1H13zM0 8h3v1H0zM5 8h6v1H5zM13 8h3v1H13zM5 9h6v1H5zM6 10h4v1H6zM2 12h2v1H2zM12 12h2v1H12zM2 13h2v1H2zM7 13h2v1H7zM12 13h2v1H12zM7 14h2v1H7zM7 15h2v1H7z'/%3E%3C/svg%3E");
+  --icon-moon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath d='M6 1h2v1H6zM4 2h3v1H4zM3 3h3v1H3zM2 4h4v1H2zM2 5h4v1H2zM1 6h5v1H1zM1 7h5v1H1zM1 8h5v1H1zM1 9h6v1H1zM2 10h6v1H2zM2 11h12v1H2zM3 12h10v1H3zM4 13h8v1H4zM6 14h4v1H6z'/%3E%3C/svg%3E");
+  --switch-icon: var(--icon-sun);
+  --switch-x: 0px;
   --bg: #f5f6f8;
   --dot: rgb(28 31 38 / 0.1);
   --surface: #ffffff;
   --text: #1c1f26;
   --muted: #6b7080;
   --line: #1c1f26;
+  /* The other theme's line color: text/icons drawn on a block filled with --line. */
+  --line-inverse: #eef0f4;
   --shadow: #1c1f26;
   --accent: #ff004d;
   --link: #1f6feb;
@@ -31,13 +37,15 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --toggle-label: '☀ 라이트';
+    --switch-icon: var(--icon-moon);
+    --switch-x: 24px;
     --bg: #121418;
     --dot: rgb(255 255 255 / 0.06);
     --surface: #0a0b0e;
     --text: #eef0f4;
     --muted: #9ea3ad;
     --line: #eef0f4;
+    --line-inverse: #1c1f26;
     --shadow: #ffffff;
     --link: #4ea8ff;
     --strong: #ffec27;
@@ -48,13 +56,15 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --toggle-label: '☀ 라이트';
+  --switch-icon: var(--icon-moon);
+  --switch-x: 24px;
   --bg: #121418;
   --dot: rgb(255 255 255 / 0.06);
   --surface: #0a0b0e;
   --text: #eef0f4;
   --muted: #9ea3ad;
   --line: #eef0f4;
+  --line-inverse: #1c1f26;
   --shadow: #ffffff;
   --link: #4ea8ff;
   --strong: #ffec27;
@@ -102,7 +112,7 @@ a {
 .chip,
 .post-sidebar,
 .scroll-top,
-.theme-toggle,
+.theme-switch,
 .prose pre {
   --b: 4px;
   box-shadow:
@@ -149,31 +159,71 @@ a {
   gap: 24px;
 }
 
-.theme-toggle {
+/* Theme switch: a pixel track whose knob sits left with a sun (light) or right with a moon (dark).
+   Knob position and icon come from the theme tokens, so the switch is right before any script runs. */
+.theme-switch {
   --b: 3px;
-  padding: 0 10px;
+  position: relative;
+  width: 52px;
+  height: 28px;
+  padding: 0;
   border: 0;
   background: var(--surface);
-  color: var(--text);
-  font: inherit;
   cursor: pointer;
 }
 
-/* The label lives in the theme tokens, so it is right before any script runs. */
-.theme-toggle::after {
-  content: var(--toggle-label);
+/* Both icons sit faintly in the track; the knob covers the active one. */
+.theme-switch::before,
+.theme-switch::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  background: var(--muted);
+  opacity: 0.5;
+  -webkit-mask: var(--icon) center / 16px 16px no-repeat;
+  mask: var(--icon) center / 16px 16px no-repeat;
 }
 
-.theme-toggle:hover {
-  color: var(--accent);
+.theme-switch::before {
+  --icon: var(--icon-sun);
+  left: 6px;
 }
 
-.theme-toggle:active {
-  --shadow: transparent;
-  transform: translate(6px, 6px);
+.theme-switch::after {
+  --icon: var(--icon-moon);
+  right: 6px;
 }
 
-.theme-toggle:focus-visible {
+.theme-switch:hover::before,
+.theme-switch:hover::after {
+  opacity: 1;
+}
+
+.theme-switch__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  background: var(--line);
+  clip-path: polygon(2px 0, 22px 0, 100% 2px, 100% 22px, 22px 100%, 2px 100%, 0 22px, 0 2px);
+  transform: translateX(var(--switch-x));
+  transition: transform 0.15s steps(3);
+}
+
+.theme-switch__knob::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: var(--line-inverse);
+  -webkit-mask: var(--switch-icon) center / 16px 16px no-repeat;
+  mask: var(--switch-icon) center / 16px 16px no-repeat;
+}
+
+.theme-switch:focus-visible {
   outline: 4px dashed var(--accent);
   outline-offset: 6px;
 }
@@ -569,8 +619,10 @@ a {
   cursor: pointer;
 }
 
+/* Hover: fill with the line color so the button reads as one solid block, arrow in the other theme's line color. */
 .scroll-top:hover {
-  color: var(--accent);
+  background: var(--line);
+  color: var(--line-inverse);
 }
 
 /* Pressed: drop the shadow and sink into its place. */
@@ -627,7 +679,8 @@ a {
     animation: none;
   }
 
-  .post-card {
+  .post-card,
+  .theme-switch__knob {
     transition: none;
   }
 }
