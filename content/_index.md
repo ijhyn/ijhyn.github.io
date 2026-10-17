@@ -1,3 +1,0 @@
----
-title: ijhyn-log
----

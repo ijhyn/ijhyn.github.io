@@ -2,6 +2,7 @@
 title: "Ubuntu - Obisidian 한글입력 문제"
 url: /ubuntu-obsidian
 date: 2025-01-15
+tags: [Linux]
 ---
 
 # Ubuntu - Obisidian 한글입력 문제

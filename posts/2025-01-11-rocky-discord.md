@@ -2,6 +2,7 @@
 title: "Rocky Linux - Discord 화면 공유 문제"
 url: /rocky-linux-discord
 date: 2025-01-11
+tags: [Linux]
 ---
 
 # Rocky Linux - Discord 화면 공유 문제

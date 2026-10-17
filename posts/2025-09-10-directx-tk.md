@@ -2,6 +2,7 @@
 title: "DirectX Tool Kit 라이브러리 적용"
 url: /directx-tk
 date: 2025-09-10
+tags: [DirectX]
 ---
 
 # DirectX Tool Kit 라이브러리 적용
