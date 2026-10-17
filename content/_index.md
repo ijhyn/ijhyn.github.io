@@ -9,8 +9,6 @@ This is the landing page.
 
 {{< cards >}}
   {{< card link="blog" title="Blog" icon="pencil" >}}
-  {{< card link="docs" title="Docs" icon="book-open" >}}
-  {{< card link="about" title="About" icon="user" >}}
 {{< /cards >}}
 
 ## Documentation
