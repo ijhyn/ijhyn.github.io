@@ -1,10 +1,11 @@
-{{- /* Hextra's blog list (layouts/blog/list.html, v0.12.3) without post summaries or "Read more" links.
+{{- /* Hextra's blog list (layouts/blog/list.html, v0.12.3) without post summaries or "Read more" links,
+  and with the left sidebar listing the section's posts.
   context: the page being rendered (title, content, pagination)
   section: the page whose child pages are listed */ -}}
 {{- $context := .context -}}
 {{- $section := .section -}}
 <div class="hx:mx-auto hx:flex hextra-max-page-width">
-  {{ partial "sidebar.html" (dict "context" $context "disableSidebar" true "displayPlaceholder" true) }}
+  {{ partial "sidebar.html" (dict "context" $section) }}
   <article class="hx:w-full hx:break-words hx:flex hx:min-h-[calc(100vh-var(--navbar-height))] hx:min-w-0 hx:justify-center hx:pb-8 hx:pr-[calc(env(safe-area-inset-right)-1.5rem)]">
     <main id="content" class="hx:w-full hx:min-w-0 hextra-max-content-width hx:px-6 hx:pt-4 hx:md:px-12">
       {{ partial "breadcrumb.html" (dict "page" $context "enable" false) }}
